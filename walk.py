@@ -23,9 +23,9 @@ class Walk(Node):
 		)
 		
 	def sensor_callback(self, msg):
-		left_sensor = int((len(msg.ranges) / 6) * 5)
+		left_sensor = int((len(msg.ranges) / 5) * 4)
 		middle_sensor = int(len(msg.ranges) / 2)
-		right_sensor = int(len(msg.ranges) / 6)
+		right_sensor = int(len(msg.ranges) / 5)
 		front = msg.ranges[middle_sensor]
 		left = msg.ranges[left_sensor]
 		right = msg.ranges[right_sensor]
