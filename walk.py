@@ -23,9 +23,9 @@ class Walk(Node):
 		)
 		
 	def sensor_callback(self, msg):
-		left_sensor = int((len(msg.ranges) / 5) * 4)
+		left_sensor = int((len(msg.ranges) / 6) * 5)
 		middle_sensor = int(len(msg.ranges) / 2)
-		right_sensor = int(len(msg.ranges) / 5)
+		right_sensor = int(len(msg.ranges) / 6)
 		front = msg.ranges[middle_sensor]
 		left = msg.ranges[left_sensor]
 		right = msg.ranges[right_sensor]
@@ -48,10 +48,6 @@ class Walk(Node):
 			# Too close — backup and turn
 			self.move_cmd.linear.x = -0.3
 			self.move_cmd.angular.z = 2.0
-		elif self.whisker < 2.0 and self.leftwhisker > 0.3 and self.rightwhisker > 0.3:
-			# obstacle straight ahead - turn nomral
-			self.move_cmd.angular.z = 2.0
-			self.move_cmd.linear.x = 0.3
 		elif self.leftwhisker < 0.3 and self.rightwhisker > 0.5:
 			# Obstacle on left — turn right
 			self.move_cmd.linear.x = 0.1
@@ -66,6 +62,8 @@ class Walk(Node):
 				self.move_cmd.angular.z = 2.0
 			elif self.rightwhisker > self.leftwhisker:
 				self.move_cmd.angular.z = -2.0
+			else:
+				self.move_cmd.angular.z = 2.0
 			self.move_cmd.linear.x = 0.3
 		else:
 			# All clear — go straight
