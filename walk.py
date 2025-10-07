@@ -48,14 +48,14 @@ class Walk(Node):
 			# Too close — backup and turn
 			self.move_cmd.linear.x = -0.2
 			self.move_cmd.angular.z = 2.0
-		elif self.leftwhisker < 1.0:
+		elif self.leftwhisker < 0.5:
 			# Obstacle on left — turn right
 			self.move_cmd.linear.x = 0.1
-			self.move_cmd.angular.z = -0.5
-		elif self.rightwhisker < 1.0:
+			self.move_cmd.angular.z = -0.2
+		elif self.rightwhisker < 0.5:
 			# Obstacle on right — turn left
 			self.move_cmd.linear.x = 0.1
-			self.move_cmd.angular.z = 0.5
+			self.move_cmd.angular.z = 0.2
 		elif self.whisker < 2.0:
 			# Turn away from closer side
 			if self.leftwhisker > self.rightwhisker:
