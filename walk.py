@@ -52,7 +52,7 @@ class Walk(Node):
 			# Obstacle on left — turn right
 			self.move_cmd.linear.x = 0.1
 			self.move_cmd.angular.z = -0.2
-		elif self.rightwhisker < 0.3 and self.leftwhisker >:
+		elif self.rightwhisker < 0.3 and self.leftwhisker > 0.5:
 			# Obstacle on right — turn left
 			self.move_cmd.linear.x = 0.1
 			self.move_cmd.angular.z = 0.2
