@@ -36,10 +36,6 @@ class Walk(Node):
 		self.whisker = front
 		self.rightwhisker = right
 		
-		
-	def forward(self):
-		self.move_cmd.linear.x = self.linear_speed
-		
 	def timer_callback(self):
 		self.move_cmd.linear.x = 0.0
 		self.move_cmd.angular.z = 0.0
