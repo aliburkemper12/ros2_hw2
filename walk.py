@@ -65,7 +65,7 @@ class Walk(Node):
 			self.move_cmd.linear.x = 0.3
 		else:
 			# All clear — go straight
-			self.move_cmd.linear.x = 0.1
+			self.move_cmd.linear.x = 0.8
 			self.move_cmd.angular.z = 0.0
 
 		self.cmd_pub.publish(self.move_cmd)
