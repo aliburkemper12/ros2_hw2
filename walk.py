@@ -48,25 +48,25 @@ class Walk(Node):
 			# Too close — backup and turn
 			self.move_cmd.linear.x = -0.2
 			self.move_cmd.angular.z = 2.0
-		elif self.leftwhisker < 1.0:
-			# Obstacle on left — turn right
-			self.move_cmd.linear.x = 0.1
-			self.move_cmd.angular.z = -2.0
-		elif self.rightwhisker < 1.0:
-			# Obstacle on right — turn left
-			self.move_cmd.linear.x = 0.1
-			self.move_cmd.angular.z = 2.0
-		elif self.whisker < 2.0:
-			# Turn away from closer side
-			if self.leftwhisker > self.rightwhisker:
-				self.move_cmd.angular.z = 1.5
-			elif self.rightwhisker > self.leftwhisker:
-				self.move_cmd.angular.z = -1.5
-			self.move_cmd.linear.x = 0.3
-		else:
-			# All clear — go straight
-			self.move_cmd.linear.x = 0.1
-			self.move_cmd.angular.z = 0.0
+		# elif self.leftwhisker < 1.0:
+		# 	# Obstacle on left — turn right
+		# 	self.move_cmd.linear.x = 0.1
+		# 	self.move_cmd.angular.z = -2.0
+		# elif self.rightwhisker < 1.0:
+		# 	# Obstacle on right — turn left
+		# 	self.move_cmd.linear.x = 0.1
+		# 	self.move_cmd.angular.z = 2.0
+		# elif self.whisker < 2.0:
+		# 	# Turn away from closer side
+		# 	if self.leftwhisker > self.rightwhisker:
+		# 		self.move_cmd.angular.z = 1.5
+		# 	elif self.rightwhisker > self.leftwhisker:
+		# 		self.move_cmd.angular.z = -1.5
+		# 	self.move_cmd.linear.x = 0.3
+		# else:
+		# 	# All clear — go straight
+		# 	self.move_cmd.linear.x = 0.1
+		# 	self.move_cmd.angular.z = 0.0
 
 		self.cmd_pub.publish(self.move_cmd)
 		
