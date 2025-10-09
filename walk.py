@@ -73,13 +73,13 @@ class Walk(Node):
 			else:
 				self.move_cmd.angular.z = 3.0
 			self.move_cmd.linear.x = -1.0
-		elif self.leftwhisker < 0.8 and (self.left_middlewhisker < self.leftwhisker):
+		elif self.leftwhisker < 1 and (self.left_middlewhisker < self.leftwhisker):
 			# Obstacle on left — turn right
-			self.move_cmd.linear.x = 0.1
+			self.move_cmd.linear.x = 0.0
 			self.move_cmd.angular.z = -0.3
-		elif self.rightwhisker < 0.8 and (self.right_middlewhisker < self.rightwhisker):
+		elif self.rightwhisker < 1 and (self.right_middlewhisker < self.rightwhisker):
 			# Obstacle on right — turn left
-			self.move_cmd.linear.x = 0.1
+			self.move_cmd.linear.x = 0.0
 			self.move_cmd.angular.z = 0.3
 		elif self.whisker < 1.0:
 			# Turn away from closer side
