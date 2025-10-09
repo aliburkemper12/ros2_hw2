@@ -59,7 +59,7 @@ class Walk(Node):
 		if self.counter > 60:
 			print("Counter: " + str(self.counter))
 			self.counter = 0
-			angle = random.randfloat(-3.0, 3.0)
+			angle = random.uniform(-3.0, 3.0)
 			# turn randomly but avoid a wall
 			if self.leftwhisker > self.rightwhisker:
 				self.move_cmd.angular.z = angle
@@ -75,14 +75,14 @@ class Walk(Node):
 			else:
 				self.move_cmd.angular.z = 3.0
 			self.move_cmd.linear.x = -1.0
-		# elif self.leftwhisker < 1 and (self.left_middlewhisker < self.leftwhisker):
-		# 	# Obstacle on left — turn right
-		# 	self.move_cmd.linear.x = 0.0
-		# 	self.move_cmd.angular.z = -0.3
-		# elif self.rightwhisker < 1 and (self.right_middlewhisker < self.rightwhisker):
-		# 	# Obstacle on right — turn left
-		# 	self.move_cmd.linear.x = 0.0
-		# 	self.move_cmd.angular.z = 0.3
+		elif self.left_middlewhisker < 0.3:
+			# Obstacle on left — turn right
+			self.move_cmd.linear.x = 0.0
+			self.move_cmd.angular.z = -0.3
+		elif self.right_middlewhisker < 0.3:
+			# Obstacle on right — turn left
+			self.move_cmd.linear.x = 0.0
+			self.move_cmd.angular.z = 0.3
 		elif self.whisker < 1:
 			# Turn away from closer side
 			if self.leftwhisker > self.rightwhisker:
