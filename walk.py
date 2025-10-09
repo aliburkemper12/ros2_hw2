@@ -9,6 +9,7 @@ class Walk(Node):
 		self.cmd_pub = self.create_publisher(Twist, '/cmd_vel', 10)
 		self.timer_period = 0.5
 		self.time = 0
+		self.counter = 0
 		self.leftwhisker = 0
 		self.rightwhisker = 0
 		self.whisker = 0
@@ -40,6 +41,19 @@ class Walk(Node):
 		self.move_cmd.linear.x = 0.0
 		self.move_cmd.angular.z = 0.0
 
+		# random movement counter
+		counter += 1
+
+		# random movement every 60 cycles
+		if counter > 60:
+			counter = 0
+			# turn randomly but avoid a wall
+			if self.leftwhisker > self.rightwhisker:
+				self.move_cmd.angular.z = -2.0
+			elif self.rightwhisker > self.leftwhisker:
+				self.move_cmd.angular.z = 2.0
+			self.cmd_pub.publish(self.move_cmd)
+
 		if self.whisker < 0.5:
 			# Too close — backup and turn
 			if self.leftwhisker > self.rightwhisker:
@@ -49,14 +63,14 @@ class Walk(Node):
 			else:
 				self.move_cmd.angular.z = 3.0
 			self.move_cmd.linear.x = -1.0
-		elif self.leftwhisker < 0.5 and self.rightwhisker > 0.5:
-			# Obstacle on left — turn right
-			self.move_cmd.linear.x = 0.1
-			self.move_cmd.angular.z = -0.3
-		elif self.rightwhisker < 0.5 and self.leftwhisker > 0.5:
-			# Obstacle on right — turn left
-			self.move_cmd.linear.x = 0.1
-			self.move_cmd.angular.z = 0.3
+		# elif self.leftwhisker < 0.5 and self.rightwhisker > 0.5:
+		# 	# Obstacle on left — turn right
+		# 	self.move_cmd.linear.x = 0.1
+		# 	self.move_cmd.angular.z = -0.3
+		# elif self.rightwhisker < 0.5 and self.leftwhisker > 0.5:
+		# 	# Obstacle on right — turn left
+		# 	self.move_cmd.linear.x = 0.1
+		# 	self.move_cmd.angular.z = 0.3
 		elif self.whisker < 1.0:
 			# Turn away from closer side
 			if self.leftwhisker > self.rightwhisker:
