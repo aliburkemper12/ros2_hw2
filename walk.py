@@ -42,11 +42,11 @@ class Walk(Node):
 		self.move_cmd.angular.z = 0.0
 
 		# random movement counter
-		counter += 1
+		self.counter += 1
 
 		# random movement every 60 cycles
-		if counter > 60:
-			counter = 0
+		if self.counter > 60:
+			self.counter = 0
 			# turn randomly but avoid a wall
 			if self.leftwhisker > self.rightwhisker:
 				self.move_cmd.angular.z = -2.0
