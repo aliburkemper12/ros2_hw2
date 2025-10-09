@@ -59,7 +59,7 @@ class Walk(Node):
 		if self.counter > 60:
 			print("Counter: " + str(self.counter))
 			self.counter = 0
-			angle = random.randint(-3, 3)
+			angle = random.randfloat(-3.0, 3.0)
 			# turn randomly but avoid a wall
 			if self.leftwhisker > self.rightwhisker:
 				self.move_cmd.angular.z = angle
