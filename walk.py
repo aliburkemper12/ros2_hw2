@@ -1,4 +1,5 @@
 import rclpy
+import random
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
@@ -58,11 +59,12 @@ class Walk(Node):
 		if self.counter > 60:
 			print("Counter: " + str(self.counter))
 			self.counter = 0
+			angle = random.randint(-3, 3)
 			# turn randomly but avoid a wall
 			if self.leftwhisker > self.rightwhisker:
-				self.move_cmd.angular.z = -2.0
+				self.move_cmd.angular.z = angle
 			elif self.rightwhisker > self.leftwhisker:
-				self.move_cmd.angular.z = 2.0
+				self.move_cmd.angular.z = angle
 
 		elif self.whisker < 0.5:
 			# Too close — backup and turn
@@ -81,7 +83,7 @@ class Walk(Node):
 		# 	# Obstacle on right — turn left
 		# 	self.move_cmd.linear.x = 0.0
 		# 	self.move_cmd.angular.z = 0.3
-		elif self.whisker < 1.5:
+		elif self.whisker < 1:
 			# Turn away from closer side
 			if self.leftwhisker > self.rightwhisker:
 				self.move_cmd.angular.z = 2.0
