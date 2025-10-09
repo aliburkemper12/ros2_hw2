@@ -11,7 +11,9 @@ class Walk(Node):
 		self.time = 0
 		self.counter = 0
 		self.leftwhisker = 0
+		self.left_middlewhisker = 0
 		self.rightwhisker = 0
+		self.right_middlewhisker = 0
 		self.whisker = 0
 		self.linear_speed = 0.0
 		self.move_cmd = Twist()
@@ -25,16 +27,24 @@ class Walk(Node):
 		
 	def sensor_callback(self, msg):
 		left_sensor = int((len(msg.ranges) / 6) * 5)
+		left_middle_sensor = int((len(msg.ranges) / 3) * 2)
 		middle_sensor = int(len(msg.ranges) / 2)
+		right_middle_sensor = int(len(msg.ranges) / 3)
 		right_sensor = int(len(msg.ranges) / 6)
 		front = msg.ranges[middle_sensor]
+		left_middle = msg.ranges[left_middle_sensor]
 		left = msg.ranges[left_sensor]
+		right_middle = msg.ranges[right_middle_sensor]
 		right = msg.ranges[right_sensor]
 		print("Sensor: " + str(front))
+		print("Left Middle Sensor: " + str(left_middle))
 		print("Left Sensor: " + str(left))
+		print("Right Middle Sensor: " + str(right_middle))
 		print("Right Sensor:" + str(right))
 		self.leftwhisker = left
+		self.left_middlewhisker = left_middle
 		self.whisker = front
+		self.right_middlewhisker = right_middle
 		self.rightwhisker = right
 		
 	def timer_callback(self):
@@ -63,14 +73,14 @@ class Walk(Node):
 			else:
 				self.move_cmd.angular.z = 3.0
 			self.move_cmd.linear.x = -1.0
-		# elif self.leftwhisker < 0.5 and self.rightwhisker > 0.5:
-		# 	# Obstacle on left — turn right
-		# 	self.move_cmd.linear.x = 0.1
-		# 	self.move_cmd.angular.z = -0.3
-		# elif self.rightwhisker < 0.5 and self.leftwhisker > 0.5:
-		# 	# Obstacle on right — turn left
-		# 	self.move_cmd.linear.x = 0.1
-		# 	self.move_cmd.angular.z = 0.3
+		elif self.leftwhisker < 0.5 and (self.left_middlewhisker < self.leftwhisker):
+			# Obstacle on left — turn right
+			self.move_cmd.linear.x = 0.1
+			self.move_cmd.angular.z = -0.3
+		elif self.rightwhisker < 0.5 and (self.right_middlewhisker < self.rightwhisker):
+			# Obstacle on right — turn left
+			self.move_cmd.linear.x = 0.1
+			self.move_cmd.angular.z = 0.3
 		elif self.whisker < 1.0:
 			# Turn away from closer side
 			if self.leftwhisker > self.rightwhisker:
