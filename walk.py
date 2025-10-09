@@ -56,15 +56,15 @@ class Walk(Node):
 
 		# random movement every 60 cycles
 		if self.counter > 60:
+			print("Counter: " + str(self.counter))
 			self.counter = 0
 			# turn randomly but avoid a wall
 			if self.leftwhisker > self.rightwhisker:
 				self.move_cmd.angular.z = -2.0
 			elif self.rightwhisker > self.leftwhisker:
 				self.move_cmd.angular.z = 2.0
-			self.cmd_pub.publish(self.move_cmd)
 
-		if self.whisker < 0.5:
+		elif self.whisker < 0.5:
 			# Too close — backup and turn
 			if self.leftwhisker > self.rightwhisker:
 				self.move_cmd.angular.z = -3.0
@@ -81,7 +81,7 @@ class Walk(Node):
 		# 	# Obstacle on right — turn left
 		# 	self.move_cmd.linear.x = 0.0
 		# 	self.move_cmd.angular.z = 0.3
-		elif self.whisker < 1.0:
+		elif self.whisker < 1.5:
 			# Turn away from closer side
 			if self.leftwhisker > self.rightwhisker:
 				self.move_cmd.angular.z = 2.0
