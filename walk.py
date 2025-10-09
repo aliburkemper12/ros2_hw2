@@ -48,6 +48,7 @@ class Walk(Node):
 		self.right_middlewhisker = right_middle
 		self.rightwhisker = right
 		
+	times_stuck = 0
 	def timer_callback(self):
 		self.move_cmd.linear.x = 0.0
 		self.move_cmd.angular.z = 0.0
@@ -55,17 +56,18 @@ class Walk(Node):
 		# random movement counter
 		self.counter += 1
 
-		# random movement every 60 cycles
+		# random movement every 60 cycles to prevent same path every run & stuck in loops
 		if self.counter > 60:
 			print("Counter: " + str(self.counter))
 			self.counter = 0
 			angle = random.uniform(-3.0, 3.0)
+
 			# turn randomly but avoid a wall
 			if self.leftwhisker > self.rightwhisker:
 				self.move_cmd.angular.z = angle
 			elif self.rightwhisker > self.leftwhisker:
 				self.move_cmd.angular.z = angle
-			self.linear_speed = random.uniform(0.0, 0.6)
+			self.linear_speed = random.uniform(0.1, 2.0)
 
 		elif self.whisker < 0.5:
 			# Too close — backup and turn
@@ -76,14 +78,17 @@ class Walk(Node):
 			else:
 				self.move_cmd.angular.z = 3.0
 			self.move_cmd.linear.x = -1.0
+		
 		elif self.left_middlewhisker < 0.3:
 			# Obstacle on left — turn right
 			self.move_cmd.linear.x = 0.0
 			self.move_cmd.angular.z = -0.3
+
 		elif self.right_middlewhisker < 0.3:
 			# Obstacle on right — turn left
 			self.move_cmd.linear.x = 0.0
 			self.move_cmd.angular.z = 0.3
+
 		elif self.whisker < 1:
 			# Turn away from closer side
 			if self.leftwhisker > self.rightwhisker:
@@ -93,6 +98,7 @@ class Walk(Node):
 			else:
 				self.move_cmd.angular.z = 2.0
 			self.move_cmd.linear.x = 0.0
+
 		else:
 			# All clear — go straight
 			self.move_cmd.linear.x = 0.8
