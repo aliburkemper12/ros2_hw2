@@ -65,6 +65,7 @@ class Walk(Node):
 				self.move_cmd.angular.z = angle
 			elif self.rightwhisker > self.leftwhisker:
 				self.move_cmd.angular.z = angle
+			self.linear_speed = random.uniform(0.0, 0.6)
 
 		elif self.whisker < 0.5:
 			# Too close — backup and turn
